@@ -22,7 +22,7 @@ function InstallationComplete() {
     }, 3100);
     setTimeout(() => {
         console.log(`controller device. `)
-    }, 3800);
+    }, 3900);
 
 }
 
