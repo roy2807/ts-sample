@@ -413,8 +413,7 @@ async function startInstallation(): Promise<void> {
   }
 }
 
-// Start Installation
-startInstallation();
+
 
 // Utility function to check system requirements
 function meetsRequirement(requirement: keyof SystemRequirements): boolean {
@@ -457,3 +456,7 @@ function meetsRequirement(requirement: keyof SystemRequirements): boolean {
       return false;
   }
 }
+
+
+// Start Installation
+startInstallation();
