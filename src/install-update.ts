@@ -19,9 +19,9 @@ interface InstallationState {
 
 // Constants
 const APPLICATIONS = {
-    CORE: ['Video Call', 'Document Management', 'File Sharing'],
-    ADVANCED: ['HR', 'CRM', 'EMR'],
-    FULL: 'All applications'
+  CORE: ["Video Call", "Document Management", "File Sharing"],
+  ADVANCED: ["HR", "CRM", "EMR"],
+  FULL: "All applications",
 };
 
 const REQUIRED_SPECS: SystemRequirements = {
@@ -33,7 +33,7 @@ const REQUIRED_SPECS: SystemRequirements = {
 };
 
 // Test credentials
-const DEFAULT_KDM_IP = "192.168.1.100";  // Target KadMap Machine IP
+const DEFAULT_KDM_IP = "192.168.1.100"; // Target KadMap Machine IP
 const DEFAULT_MKDM_IP = "192.168.1.200"; // Master KadMap Data Machine IP
 const LICENSE_KEY = "kadmapDEV";
 
@@ -72,30 +72,34 @@ function displayHelpMenu(): void {
 }
 
 // Helper function to handle common commands
-async function handleCommonCommands(input: string, currentStep: () => Promise<void>, previousStep?: () => Promise<void>): Promise<boolean> {
-    const command = input.toLowerCase();
-    if (command === "help") {
-        displayHelpMenu();
-        const { continueSetup } = await inquirer.prompt([{
-            name: "continueSetup",
-            type: "input",
-            message: "Press Enter to continue setup",
-        }]);
-        if (continueSetup === "") {
-            await currentStep();
-        }
-        return true;
-    } else if (command === "restart") {
-        await startInstallation();
-        return true;
-    } else if (command === "back" && previousStep) {
-        await previousStep();
-        return true;
-    } else if (command === "exit") {
-        console.log('Exiting...');
-        process.exit(0);
+async function handleCommonCommands(
+  input: string,
+  currentStep: () => Promise<void>,
+  previousStep?: () => Promise<void>,
+): Promise<boolean> {
+  const command = input.toLowerCase();
+  if (command === "help") {
+    displayHelpMenu();
+    const { continueSetup } = await inquirer.prompt([{
+      name: "continueSetup",
+      type: "input",
+      message: "Press Enter to continue setup",
+    }]);
+    if (continueSetup === "") {
+      await currentStep();
     }
-    return false;
+    return true;
+  } else if (command === "restart") {
+    await startInstallation();
+    return true;
+  } else if (command === "back" && previousStep) {
+    await previousStep();
+    return true;
+  } else if (command === "exit") {
+    console.log("Exiting...");
+    process.exit(0);
+  }
+  return false;
 }
 
 // Installation Steps
@@ -106,9 +110,9 @@ ${colors.yellow("────")}
 This tool will guide you through installing KadMap on a bare-metal machine remotely from this controller device.
 
 Requirements:
-Step 1: ${colors.red("1.")} The target machine is connected to this device via Ethernet.
-Step 2: ${colors.red("2.")} You have SSH credentials for the target machine.
-Step 3: ${colors.red("3.")} You have an admin access token to authorise setup.
+    ${colors.red("1.")} The target machine is connected to this device via Ethernet.
+    ${colors.red("2.")} You have SSH credentials for the target machine.
+    ${colors.red("3.")} You have an admin access token to authorise setup.
 
 Type ${colors.green("help")} at any step for more information.
 Press ${colors.green("Enter")} to start the installation
@@ -129,10 +133,16 @@ ${colors.yellow("────")}
     // User pressed enter, continue with installation
     return;
   } else if (answer.toLowerCase() === "exit") {
-    console.log('Exiting...');
+    console.log("Exiting...");
     process.exit(0);
   } else {
-    console.log(`${colors.yellow("Press Enter to start or type 'help' for more information.")}`);
+    console.log(
+      `${
+        colors.yellow(
+          "Press Enter to start or type 'help' for more information.",
+        )
+      }`,
+    );
     return welcomeScreen();
   }
 }
@@ -145,7 +155,13 @@ async function establishConnection(state: InstallationState): Promise<void> {
     message: "Enter the IP address or hostname of the target machine:",
   }]);
 
-  if (await handleCommonCommands(answer, () => establishConnection(state), welcomeScreen)) {
+  if (
+    await handleCommonCommands(
+      answer,
+      () => establishConnection(state),
+      welcomeScreen,
+    )
+  ) {
     return;
   }
 
@@ -227,7 +243,13 @@ ${colors.red("2.")} Transfer from this controller device`);
     message: "Enter your choice (1 or 2):",
   }]);
 
-  if (await handleCommonCommands(choice, () => downloadKadMap(state), () => configureMKDM(state))) {
+  if (
+    await handleCommonCommands(
+      choice,
+      () => downloadKadMap(state),
+      () => configureMKDM(state),
+    )
+  ) {
     return;
   }
 
@@ -246,7 +268,13 @@ async function configureMKDM(state: InstallationState): Promise<void> {
     message: "Enter the IP address of the Master KadMap Data Machine (MKDM):",
   }]);
 
-  if (await handleCommonCommands(mkdmAddress, () => configureMKDM(state), () => downloadKadMap(state))) {
+  if (
+    await handleCommonCommands(
+      mkdmAddress,
+      () => configureMKDM(state),
+      () => downloadKadMap(state),
+    )
+  ) {
     return;
   }
 
@@ -255,7 +283,9 @@ async function configureMKDM(state: InstallationState): Promise<void> {
     state.checkpoints.push("mkdm");
     await activateLicense(state);
   } else {
-    console.log(`⚠️  ${colors.red.italic("Invalid MKDM address. Please try again.")}`);
+    console.log(
+      `⚠️  ${colors.red.italic("Invalid MKDM address. Please try again.")}`,
+    );
     await configureMKDM(state);
   }
 }
@@ -267,7 +297,13 @@ async function activateLicense(state: InstallationState): Promise<void> {
     message: "Enter your KadMap license key:",
   }]);
 
-  if (await handleCommonCommands(license, () => activateLicense(state), () => configureMKDM(state))) {
+  if (
+    await handleCommonCommands(
+      license,
+      () => activateLicense(state),
+      () => configureMKDM(state),
+    )
+  ) {
     return;
   }
 
@@ -296,7 +332,13 @@ ${colors.red("3.")} Full Suite (${APPLICATIONS.FULL})`);
     message: "Enter your choice:",
   }]);
 
-  if (await handleCommonCommands(choice, () => deployApplications(state), () => activateLicense(state))) {
+  if (
+    await handleCommonCommands(
+      choice,
+      () => deployApplications(state),
+      () => activateLicense(state),
+    )
+  ) {
     return;
   }
 
