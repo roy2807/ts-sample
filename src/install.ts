@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import chalk from 'chalk';
+import colors from 'colors';
 import logUpdate from 'log-update'
 
 
@@ -9,7 +9,7 @@ import logUpdate from 'log-update'
 function InstallationComplete() {
     console.log(``)
     setTimeout(() => {
-        console.log(`KadMap Installation Complete${chalk.yellow('!')} `)
+        console.log(`KadMap Installation Complete${colors.yellow('!')} `)
     }, 1000);
     setTimeout(() => {
         console.log(`---`)
@@ -28,11 +28,11 @@ function InstallationComplete() {
 
 function helpMenu() {
     console.log(``)
-    console.log(`Type ${chalk.green('help')} to see this menu help`)
-    console.log(`- ${chalk.yellow('Back')} - Return to the previous step.`)
-    console.log(`- ${chalk.yellow("Restart")} - Restart the setup from the beginning.`)
-    console.log(`- ${chalk.yellow('Skip')} - Skip the current step (use with caution).`)
-    console.log(`- ${chalk.yellow('exit')} - Exit the installer.`)
+    console.log(`Type ${colors.green('help')} to see this menu help`)
+    console.log(`- ${colors.yellow('Back')} - Return to the previous step.`)
+    console.log(`- ${colors.yellow("Restart")} - Restart the setup from the beginning.`)
+    console.log(`- ${colors.yellow('Skip')} - Skip the current step (use with caution).`)
+    console.log(`- ${colors.yellow('exit')} - Exit the installer.`)
 
     setTimeout(() => {
         InstallationComplete()
@@ -54,118 +54,125 @@ function FinalSynchronization(AvailableRequirements:string[], IPAddress:string, 
 
         setTimeout(() => {
             clearInterval(interval)
-            console.log(`✅${chalk.bold('All checks passed! KadMap is ready for use.')}`)
+            console.log(`✅${colors.bold('All checks passed! KadMap is ready for use.')}`)
             helpMenu()
         }, 4000);
 
     } else if (FinalCheck.length == 8) {
-        console.log(`⚠️  ${chalk.red.italic('Failed to install KadMap. cause: missed 1 steps')}`)
+        console.log(`⚠️  ${colors.red.italic('Failed to install KadMap. cause: missed 1 steps')}`)
         setTimeout(() => {
-            const sync = async () => {
+            const sync = async () => { 
                 const answer = await inquirer.prompt([{
                     name: 'name',
                     type: 'confirm',
                     message: 'would you like to restart?'
-                }])
-                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${chalk.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
+                }]);
+                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${colors.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
             }
             sync()
         }, 1200);
 
     } else if (FinalCheck.length == 7) {
-        console.log(`⚠️  ${chalk.red.italic('Failed to install KadMap. cause: missed 2 steps')}`)
+        console.log(`⚠️  ${colors.red.italic('Failed to install KadMap. cause: missed 2 steps')}`)
         setTimeout(() => {
             const sync = async () => {
+
                 const answer = await inquirer.prompt([{
                     name: 'name',
                     type: 'confirm',
                     message: 'would you like to restart?'
-                }])
-                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${chalk.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
+                }]);
+                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${colors.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
             }
             sync()
         }, 1200);
 
     } else if (FinalCheck.length == 6) {
-        console.log(`⚠️  ${chalk.red.italic('Failed to install KadMap. cause: missed 3 steps')}`)
+        console.log(`⚠️  ${colors.red.italic('Failed to install KadMap. cause: missed 3 steps')}`)
         setTimeout(() => {
             const sync = async () => {
+
                 const answer = await inquirer.prompt([{
                     name: 'name',
                     type: 'confirm',
                     message: 'would you like to restart?'
-                }])
-                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${chalk.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
+                }]);
+                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${colors.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
             }
             sync()
         }, 1200);
 
     } else if (FinalCheck.length == 5) {
-        console.log(`⚠️  ${chalk.red.italic('Failed to install KadMap. cause: missed 4 steps')}`)
+        console.log(`⚠️  ${colors.red.italic('Failed to install KadMap. cause: missed 4 steps')}`)
         setTimeout(() => {
             const sync = async () => {
+
                 const answer = await inquirer.prompt([{
                     name: 'name',
                     type: 'confirm',
                     message: 'would you like to restart?'
-                }])
-                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${chalk.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
+                }]);
+                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${colors.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
             }
             sync()
         }, 1200);
 
     } else if (FinalCheck.length == 4) {
-        console.log(`⚠️  ${chalk.red.italic('Failed to install KadMap. cause: missed 5 steps')}`)
+        console.log(`⚠️  ${colors.red.italic('Failed to install KadMap. cause: missed 5 steps')}`)
         setTimeout(() => {
             const sync = async () => {
+
                 const answer = await inquirer.prompt([{
                     name: 'name',
                     type: 'confirm',
                     message: 'would you like to restart?'
-                }])
-                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${chalk.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
+                }]);
+                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${colors.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
             }
             sync()
         }, 1200);
 
     } else if (FinalCheck.length == 3) {
-        console.log(`⚠️  ${chalk.red.italic('Failed to install KadMap. cause: missed 6 steps')}`)
+        console.log(`⚠️  ${colors.red.italic('Failed to install KadMap. cause: missed 6 steps')}`)
         setTimeout(() => {
             const sync = async () => {
+
                 const answer = await inquirer.prompt([{
                     name: 'name',
                     type: 'confirm',
                     message: 'would you like to restart?'
-                }])
-                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${chalk.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
+                }]);
+                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${colors.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
             }
             sync()
         }, 1200);
 
     } else if (FinalCheck.length == 2) {
-        console.log(`⚠️  ${chalk.red.italic('Failed to install KadMap. cause: missed 7 steps')}`)
+        console.log(`⚠️  ${colors.red.italic('Failed to install KadMap. cause: missed 7 steps')}`)
         setTimeout(() => {
-            const sync = async () => {
+            const sync = async () => { 
+
                 const answer = await inquirer.prompt([{
                     name: 'name',
                     type: 'confirm',
                     message: 'would you like to restart?'
-                }])
-                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${chalk.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
+                }]);
+                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${colors.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
             }
             sync()
         }, 1200);
 
     } else if (FinalCheck.length == 1) {
-        console.log(`⚠️  ${chalk.red.italic('Failed to install KadMap. cause: missed 8 steps')}`)
+        console.log(`⚠️  ${colors.red.italic('Failed to install KadMap. cause: missed 8 steps')}`)
         setTimeout(() => {
             const sync = async () => {
+
                 const answer = await inquirer.prompt([{
                     name: 'name',
                     type: 'confirm',
                     message: 'would you like to restart?'
-                }])
-                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${chalk.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
+                }]);
+                answer.name == true ? WelcomeScreen() : console.log(`⚠️  ${colors.red.italic(' Final checks encountered issues. Please review the log and resolve any errors.')}`)
             }
             sync()
         }, 1200);
@@ -201,7 +208,7 @@ function EnableSevrice(AvailableRequirements:string[], IPAddress:string, FinalCh
         clearInterval(interval)
     }, 4000);
     setTimeout(() => {
-        console.log(`✅${chalk.bold('Services are now set to start automatically on boot.')}`)
+        console.log(`✅${colors.bold('Services are now set to start automatically on boot.')}`)
         FinalCheck.push("1")
         console.log("deploy", FinalCheck)
         FinalSynchronization(AvailableRequirements, IPAddress, FinalCheck)
@@ -217,17 +224,18 @@ function DeployApplications(AvailableRequirements:string[], IPAddress:string, Fi
     console.log(FinalCheck)
     console.log(``)
     console.log(`Select the applications to install:`)
-    console.log(`${chalk.red('1')}. Core Applications (Video Call, Document Management, File Sharing)`)
-    console.log(`${chalk.red("2")}. Advanced Applications (HR, CRM, EMR)`)
-    console.log(`${chalk.red("3")}. Full Suite (All applications)`)
+    console.log(`${colors.red('1')}. Core Applications (Video Call, Document Management, File Sharing)`)
+    console.log(`${colors.red("2")}. Advanced Applications (HR, CRM, EMR)`)
+    console.log(`${colors.red("3")}. Full Suite (All applications)`)
     console.log(``)
 
     const Deploy = async () => {
+
         const answer = await inquirer.prompt([{
             name: 'name',
             type: 'input',
             message: 'Enter Your Choice:'
-        }])
+        }]);
 
         const frames = ['.', '..', '...', '....', '.....']
         let i = 0
@@ -252,11 +260,11 @@ function DeployApplications(AvailableRequirements:string[], IPAddress:string, Fi
             if (ans == "help") {
 
                 console.log(``)
-                console.log(`Type ${chalk.green('help')} to see this menu help`)
-                console.log(`- ${chalk.yellow('Back')} - Return to the previous step.`)
-                console.log(`- ${chalk.yellow("Restart")} - Restart the setup from the beginning.`)
-                console.log(`- ${chalk.yellow('Skip')} - Skip the current step (use with caution).`)
-                console.log(`- ${chalk.yellow('exit')} - Exit the installer.`)
+                console.log(`Type ${colors.green('help')} to see this menu help`)
+                console.log(`- ${colors.yellow('Back')} - Return to the previous step.`)
+                console.log(`- ${colors.yellow("Restart")} - Restart the setup from the beginning.`)
+                console.log(`- ${colors.yellow('Skip')} - Skip the current step (use with caution).`)
+                console.log(`- ${colors.yellow('exit')} - Exit the installer.`)
                 console.log(``)
 
                 setTimeout(() => {
@@ -282,7 +290,7 @@ function DeployApplications(AvailableRequirements:string[], IPAddress:string, Fi
                 }, 5000);
             } else if (answer.name == ('1')) {
 
-                console.log(`${chalk.bold('✅ Applications and workspaces are ready.')}`)
+                console.log(`${colors.bold('✅ Applications and workspaces are ready.')}`)
                 setTimeout(() => {
                     FinalCheck.push("1")
                     EnableSevrice(AvailableRequirements, IPAddress, FinalCheck)
@@ -291,7 +299,7 @@ function DeployApplications(AvailableRequirements:string[], IPAddress:string, Fi
 
             } else if (answer.name == ('2')) {
 
-                console.log(`${chalk.bold('✅ Applications and workspaces are ready.')}`)
+                console.log(`${colors.bold('✅ Applications and workspaces are ready.')}`)
                 setTimeout(() => {
                     FinalCheck.push("1")
                     EnableSevrice(AvailableRequirements, IPAddress, FinalCheck)
@@ -300,7 +308,7 @@ function DeployApplications(AvailableRequirements:string[], IPAddress:string, Fi
 
             } else if (answer.name == ('3')) {
 
-                console.log(`${chalk.bold('✅ Applications and workspaces are ready.')}`)
+                console.log(`${colors.bold('✅ Applications and workspaces are ready.')}`)
                 setTimeout(() => {
                     FinalCheck.push("1")
                     EnableSevrice(AvailableRequirements, IPAddress, FinalCheck)
@@ -309,7 +317,7 @@ function DeployApplications(AvailableRequirements:string[], IPAddress:string, Fi
 
 
             } else {
-                console.log(`${chalk.yellow.italic('SyntaxError: Choose for Number 1,2,3 ')}`)
+                console.log(`${colors.yellow.italic('SyntaxError: Choose for Number 1,2,3 ')}`)
                 setTimeout(() => {
                     Deploy()
                 }, 1500);
@@ -344,7 +352,7 @@ function KadmapCoreService(AvailableRequirements:string[], IPAddress:string, Fin
 
         setTimeout(() => {
             clearInterval(interval)
-            console.log(`✅${chalk.bold('KadMap core services are up and running.')}`)
+            console.log(`✅${colors.bold('KadMap core services are up and running.')}`)
             FinalCheck.push("1")
             DeployApplications(AvailableRequirements, IPAddress, FinalCheck)
         }, 7000);
@@ -364,11 +372,12 @@ function License(AvailableRequirements:string[], IPAddress:string, FinalCheck:st
 
 
     const license = async () => {
+
         const answer = await inquirer.prompt([{
             name: 'name',
             type: 'input',
             message: 'Enter the license key provided by your organization to activate KadMap on this machine:'
-        }])
+        }]);
 
         const ID = ('kadmapDEV')
 
@@ -393,11 +402,11 @@ function License(AvailableRequirements:string[], IPAddress:string, FinalCheck:st
             if (ans == "help") {
 
                 console.log(``)
-                console.log(`Type ${chalk.green('help')} to see this menu help`)
-                console.log(`- ${chalk.yellow('Back')} - Return to the previous step.`)
-                console.log(`- ${chalk.yellow("Restart")} - Restart the setup from the beginning.`)
-                console.log(`- ${chalk.yellow('Skip')} - Skip the current step (use with caution).`)
-                console.log(`- ${chalk.yellow('exit')} - Exit the installer.`)
+                console.log(`Type ${colors.green('help')} to see this menu help`)
+                console.log(`- ${colors.yellow('Back')} - Return to the previous step.`)
+                console.log(`- ${colors.yellow("Restart")} - Restart the setup from the beginning.`)
+                console.log(`- ${colors.yellow('Skip')} - Skip the current step (use with caution).`)
+                console.log(`- ${colors.yellow('exit')} - Exit the installer.`)
                 console.log(``)
 
                 setTimeout(() => {
@@ -428,13 +437,13 @@ function License(AvailableRequirements:string[], IPAddress:string, FinalCheck:st
                 if (answer.name == ID) {
                     FinalCheck.push("1")
                     console.log(`at license`, FinalCheck)
-                    console.log(`✅${chalk.bold(' Network settings configured. Connected to MKDM, and license key applied successfully.')}`)
+                    console.log(`✅${colors.bold(' Network settings configured. Connected to MKDM, and license key applied successfully.')}`)
                     console.log(``)
                     KadmapCoreService(AvailableRequirements, IPAddress, FinalCheck)
 
                 } else {
                     setTimeout(() => {
-                        console.log(`⚠️  ${chalk.red.italic('Could not connect to [')} ${chalk.redBright.bold.italic(answer.name)} ${chalk.red.italic('] : or verify the license key. Please check the information and try again.')} .`)
+                        console.log(`⚠️  ${colors.red.italic('Could not connect to [')} ${colors.red.bold.italic(answer.name)} ${colors.red.italic('] : or verify the license key. Please check the information and try again.')} .`)
                         license()
                     }, 5000);
                 }
@@ -456,7 +465,7 @@ function True(AvailableRequirements:string[], IPAddress:string, FinalCheck:strin
             name: 'name',
             type: 'input',
             message: 'Enter new MKDM Adress'
-        }])
+        }]);
 
 
         const ans = answer.name.toLowerCase()
@@ -479,11 +488,11 @@ function True(AvailableRequirements:string[], IPAddress:string, FinalCheck:strin
             if (ans == "help") {
 
                 console.log(``)
-                console.log(`Type ${chalk.green('help')} to see this menu help`)
-                console.log(`- ${chalk.yellow('Back')} - Return to the previous step.`)
-                console.log(`- ${chalk.yellow("Restart")} - Restart the setup from the beginning.`)
-                console.log(`- ${chalk.yellow('Skip')} - Skip the current step (use with caution).`)
-                console.log(`- ${chalk.yellow('exit')} - Exit the installer.`)
+                console.log(`Type ${colors.green('help')} to see this menu help`)
+                console.log(`- ${colors.yellow('Back')} - Return to the previous step.`)
+                console.log(`- ${colors.yellow("Restart")} - Restart the setup from the beginning.`)
+                console.log(`- ${colors.yellow('Skip')} - Skip the current step (use with caution).`)
+                console.log(`- ${colors.yellow('exit')} - Exit the installer.`)
                 console.log(``)
 
                 T()
@@ -519,11 +528,12 @@ function Confirmation(AvailableRequirements:string[], IPAddress:string, FinalChe
 
 
     const confirm = async () => {
+
         const answer = await inquirer.prompt([{
             name: 'name',
             type: 'confirm',
             message: 'Would you like to add another MKDM address?'
-        }])
+        }]);
 
         // Confirmation and Config sholud be the same 
 
@@ -535,7 +545,7 @@ function Confirmation(AvailableRequirements:string[], IPAddress:string, FinalChe
                 License(AvailableRequirements, IPAddress, FinalCheck)
             }, 1000);
         } else {
-            console.log(`${chalk.yellow("syntaxError")}`)
+            console.log(`${colors.yellow("syntaxError")}`)
             confirm()
         }
 
@@ -559,11 +569,12 @@ function ConfigSettings(AvailableRequirements:string[], IPAddress:string, FinalC
 
 
     const Configkadmap = async () => {
-        const answer = await inquirer.prompt([{
+
+        const answer = await inquirer.prompt( [{
             name: 'name',
             type: 'input',
             message: 'Enter the IP address or hostname of the Master KadMap Data Machine (MKDM):'
-        }])
+        }] );
 
         console.log("IPAdress", IPAddress)
 
@@ -575,11 +586,11 @@ function ConfigSettings(AvailableRequirements:string[], IPAddress:string, FinalC
         if (ans == "help") {
 
             console.log(``)
-            console.log(`Type ${chalk.green('help')} to see this menu help`)
-            console.log(`- ${chalk.yellow('Back')} - Return to the previous step.`)
-            console.log(`- ${chalk.yellow("Restart")} - Restart the setup from the beginning.`)
-            console.log(`- ${chalk.yellow('Skip')} - Skip the current step (use with caution).`)
-            console.log(`- ${chalk.yellow('exit')} - Exit the installer.`)
+            console.log(`Type ${colors.green('help')} to see this menu help`)
+            console.log(`- ${colors.yellow('Back')} - Return to the previous step.`)
+            console.log(`- ${colors.yellow("Restart")} - Restart the setup from the beginning.`)
+            console.log(`- ${colors.yellow('Skip')} - Skip the current step (use with caution).`)
+            console.log(`- ${colors.yellow('exit')} - Exit the installer.`)
             console.log(``)
 
             setTimeout(() => {
@@ -608,7 +619,7 @@ function ConfigSettings(AvailableRequirements:string[], IPAddress:string, FinalC
                 Confirmation(AvailableRequirements, IPAddress, FinalCheck)
             } else if (answer.name != IPAddress) {
                 setTimeout(() => {
-                    console.log(`⚠️  ${chalk.red.italic('Could not connect to [')} ${chalk.redBright.bold.italic(answer.name)} ${chalk.red.italic(']. please check your SSH credentials or Invald IpAdress and try again')} .`)
+                    console.log(`⚠️  ${colors.red.italic('Could not connect to [')} ${colors.red.bold.italic(answer.name)} ${colors.red.italic(']. please check your SSH credentials or Invald IpAdress and try again')} .`)
                     Configkadmap()
                 }, 3000);
             }
@@ -631,17 +642,18 @@ function DownloadKadMap(AvailableRequirements:string[], IPAddress:string, FinalC
     }
 
     console.log(`How would you like to download KadMap components?`)
-    console.log(`${chalk.red('1')}. Download from the internet`)
-    console.log(`${chalk.red("2")}. Transfer from this controller device `)
+    console.log(`${colors.red('1')}. Download from the internet`)
+    console.log(`${colors.red("2")}. Transfer from this controller device `)
 
 
 
     const DownloadInternet = async () => {
-        const answer = await inquirer.prompt([{
+
+        const answer = await inquirer.prompt( [{
             name: 'name',
             type: 'input',
             message: 'Enter Your Choice:'
-        }])
+        }]);
 
 
         const ans = answer.name.toLowerCase()
@@ -649,11 +661,11 @@ function DownloadKadMap(AvailableRequirements:string[], IPAddress:string, FinalC
         if (ans == "help") {
 
             console.log(``)
-            console.log(`Type ${chalk.green('help')} to see this menu help`)
-            console.log(`- ${chalk.yellow('Back')} - Return to the previous step.`)
-            console.log(`- ${chalk.yellow("Restart")} - Restart the setup from the beginning.`)
-            console.log(`- ${chalk.yellow('Skip')} - Skip the current step (use with caution).`)
-            console.log(`- ${chalk.yellow('exit')} - Exit the installer.`)
+            console.log(`Type ${colors.green('help')} to see this menu help`)
+            console.log(`- ${colors.yellow('Back')} - Return to the previous step.`)
+            console.log(`- ${colors.yellow("Restart")} - Restart the setup from the beginning.`)
+            console.log(`- ${colors.yellow('Skip')} - Skip the current step (use with caution).`)
+            console.log(`- ${colors.yellow('exit')} - Exit the installer.`)
             console.log(``)
 
             setTimeout(() => {
@@ -685,7 +697,7 @@ function DownloadKadMap(AvailableRequirements:string[], IPAddress:string, FinalC
 
             setTimeout(() => {
                 clearInterval(interval)
-                console.log(`${chalk.bold('✅ KadMap components downloaded and verified.')}`)
+                console.log(`${colors.bold('✅ KadMap components downloaded and verified.')}`)
                 FinalCheck.push("1")
                 console.log("downloadkadmap", FinalCheck)
                 ConfigSettings(AvailableRequirements, IPAddress, FinalCheck)
@@ -703,7 +715,7 @@ function DownloadKadMap(AvailableRequirements:string[], IPAddress:string, FinalC
 
             setTimeout(() => {
                 clearInterval(interval)
-                console.log(`${chalk.bold('✅ KadMap components downloaded and verified.')}`)
+                console.log(`${colors.bold('✅ KadMap components downloaded and verified.')}`)
                 FinalCheck.push("1")
                 console.log("downloadkadmap", FinalCheck)
                 ConfigSettings(AvailableRequirements, IPAddress, FinalCheck)
@@ -714,7 +726,7 @@ function DownloadKadMap(AvailableRequirements:string[], IPAddress:string, FinalC
 
 
         } else {
-            console.log(`${chalk.yellow.italic('SyntaxError: Choose for Number 1 or 2 ')}`)
+            console.log(`${colors.yellow.italic('SyntaxError: Choose for Number 1 or 2 ')}`)
             setTimeout(() => {
                 DownloadKadMap(AvailableRequirements, IPAddress, FinalCheck)
             }, 1500);
@@ -748,7 +760,7 @@ function PrepareEnvironment(AvailableRequirements:string[], IPAddress:string, Fi
 
     setTimeout(() => {
         console.log("systemcheck", FinalCheck)
-        console.log(`${chalk.bold('✅ Environment setup complete. The machine is ready for KadMap components. ')}`)
+        console.log(`${colors.bold('✅ Environment setup complete. The machine is ready for KadMap components. ')}`)
         DownloadKadMap(AvailableRequirements, IPAddress, FinalCheck)
     }, 6000)
 
@@ -773,7 +785,7 @@ function CheckSystemRequierment(AvailableRequirements:string[], IPAddress:string
     }
 
     if (AvailableRequirements.includes('3.8GHz') && AvailableRequirements.includes("128GB") && AvailableRequirements.includes('1TG SSD')) {
-        console.log(` ✅${chalk.bold(' System requirements check complete. The machine is ready for KadMap.')}`)
+        console.log(` ✅${colors.bold(' System requirements check complete. The machine is ready for KadMap.')}`)
         FinalCheck.push('1')
 
         PrepareEnvironment(AvailableRequirements, IPAddress, FinalCheck)
@@ -795,11 +807,12 @@ function EstablishConnection(AvailableRequirements:string[], FinalCheck:string[]
 
     const IPAddress = 'user123.45.67.89'
     const TargetMachine = async () => {
+
         const answer2 = await inquirer.prompt([{
             name: 'name',
             type: 'input',
             message: 'Enter the IP address or hostname of the target machine:'
-        }])
+        }]);
 
 
         console.log("IPAddress", IPAddress)
@@ -809,11 +822,11 @@ function EstablishConnection(AvailableRequirements:string[], FinalCheck:string[]
         if (ans == "help") {
 
             console.log(``)
-            console.log(`Type ${chalk.green('help')} to see this menu help`)
-            console.log(`- ${chalk.yellow('Back')} - Return to the previous step.`)
-            console.log(`- ${chalk.yellow("Restart")} - Restart the setup from the beginning.`)
-            console.log(`- ${chalk.yellow('Skip')} - Skip the current step (use with caution).`)
-            console.log(`- ${chalk.yellow('exit')} - Exit the installer.`)
+            console.log(`Type ${colors.green('help')} to see this menu help`)
+            console.log(`- ${colors.yellow('Back')} - Return to the previous step.`)
+            console.log(`- ${colors.yellow("Restart")} - Restart the setup from the beginning.`)
+            console.log(`- ${colors.yellow('Skip')} - Skip the current step (use with caution).`)
+            console.log(`- ${colors.yellow('exit')} - Exit the installer.`)
             console.log(``)
 
             setTimeout(() => {
@@ -837,13 +850,13 @@ function EstablishConnection(AvailableRequirements:string[], FinalCheck:string[]
             }, 5000);
         } else {
 
-            // console.log(`Attempting to connect to [${chalk.bold.italic(answer2.name)}]...`)
+            // console.log(`Attempting to connect to [${colors.bold.italic(answer2.name)}]...`)
 
             const frames = ['.', '..', '...']
             let i = 0
             const interval = setInterval(() => {
                 const frame = frames[i++ % frames.length]
-                logUpdate(`Attempting to connect to [${chalk.bold.italic(answer2.name)}]${frame}`)
+                logUpdate(`Attempting to connect to [${colors.bold.italic(answer2.name)}]${frame}`)
             }, 150)
 
             setTimeout(() => {
@@ -868,7 +881,7 @@ function EstablishConnection(AvailableRequirements:string[], FinalCheck:string[]
 
                 setTimeout(() => {
                     if (IPAddress == answer2.name) {
-                        console.log(`✅${chalk.bold(' Successfully connected to ')}${chalk.bold.italic(answer2.name)}`)
+                        console.log(`✅${colors.bold(' Successfully connected to ')}${colors.bold.italic(answer2.name)}`)
                         setTimeout(() => {
                             FinalCheck.push("1")
                             console.log(`establish`, FinalCheck)
@@ -877,7 +890,7 @@ function EstablishConnection(AvailableRequirements:string[], FinalCheck:string[]
                         }, 100);
 
                     } else {
-                        console.log(`⚠️  ${chalk.red.italic('Could not connect to [')} ${chalk.redBright.bold.italic(answer2.name)} ${chalk.red.italic(']. Please check the network connection or SSH credentials and try again')} .`)
+                        console.log(`⚠️  ${colors.red.italic('Could not connect to [')} ${colors.red.bold.italic(answer2.name)} ${colors.red.italic(']. Please check the network connection or SSH credentials and try again')} .`)
                         TargetMachine()
                     }
 
@@ -895,16 +908,16 @@ function EstablishConnection(AvailableRequirements:string[], FinalCheck:string[]
 
 // selling point +1
 const WelcomeScreen = async () => {
-    console.log(`${chalk.bold('Welcome to KadMap Installation!')}`)
+    console.log(`${colors.bold('Welcome to KadMap Installation!')}`)
 
     console.log("----")
     console.log(`This tool will guide you through installing KadMap on a bare-metal machine remotely from this controller device.
     Requirements:`)
-    console.log(`${chalk.red('1')}. The target machine is connected to this device via Ethernet.`)
-    console.log(`${chalk.red("2")}. You have SSH credentials ${chalk.red('for')} the target machine.`)
-    console.log(`${chalk.red('3')}. The organization admin is available ${chalk.red('for')} license and MKDM details.`)
-    console.log(`Type ${chalk.green('help')} at any step ${chalk.red('for')} more information.Press ${chalk.green('Enter')} to start the installation`)
-    console.log(`Type ${chalk.red.bold("Exit")} to Exit`)
+    console.log(`${colors.red('1')}. The target machine is connected to this device via Ethernet.`)
+    console.log(`${colors.red("2")}. You have SSH credentials ${colors.red('for')} the target machine.`)
+    console.log(`${colors.red('3')}. The organization admin is available ${colors.red('for')} license and MKDM details.`)
+    console.log(`Type ${colors.green('help')} at any step ${colors.red('for')} more information.Press ${colors.green('Enter')} to start the installation`)
+    console.log(`Type ${colors.red.bold("Exit")} to Exit`)
 
 
 
@@ -913,7 +926,7 @@ const WelcomeScreen = async () => {
         name: 'name',
         type: 'input',
         message: ''
-    }])
+    }]);
 
     const FinalCheck:string[] = []
 
@@ -925,11 +938,11 @@ const WelcomeScreen = async () => {
     if (ans == "help") {
 
         console.log(``)
-        console.log(`Type ${chalk.green('help')} to see this menu help`)
-        console.log(`- ${chalk.yellow('Back')} - Return to the previous step.`)
-        console.log(`- ${chalk.yellow("Restart")} - Restart the setup from the beginning.`)
-        console.log(`- ${chalk.yellow('Skip')} - Skip the current step (use with caution).`)
-        console.log(`- ${chalk.yellow('exit')} - Exit the installer.`)
+        console.log(`Type ${colors.green('help')} to see this menu help`)
+        console.log(`- ${colors.yellow('Back')} - Return to the previous step.`)
+        console.log(`- ${colors.yellow("Restart")} - Restart the setup from the beginning.`)
+        console.log(`- ${colors.yellow('Skip')} - Skip the current step (use with caution).`)
+        console.log(`- ${colors.yellow('exit')} - Exit the installer.`)
 
         setTimeout(() => {
             WelcomeScreen()
@@ -959,7 +972,7 @@ const WelcomeScreen = async () => {
             process.exit();
         }, 5000);
     } else {
-        console.log(`${chalk.redBright.italic.bold('SyntaxError')}`)
+        console.log(`${colors.red.italic.bold('SyntaxError')}`)
         WelcomeScreen()
     }
 

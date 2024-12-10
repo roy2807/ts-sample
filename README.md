@@ -1,34 +1,54 @@
-# System Information Display
+# KadMap CLI Development Guide
 
-A simple TypeScript application that displays system information using Node.js.
+## Setup & Running
+1. Install dependencies:
+```bash
+ yarn install
+```
 
-## Features
+2. Run the CLI:
+```bash
+  yarn start
+```
 
-Displays various system information including:
-- Platform (Operating System)
-- CPU Architecture
-- Hostname
-- Number of CPU cores
-- Total and Free Memory
-- System Uptime
-- User Information
+## Test Information
+Use these values when testing:
 
-## Prerequisites
+### Valid Test Credentials
+- Target Machine IP Address: `192.168.1.100`
+- License Key: `kadmapDEV`
+- MKDM Address: `192.168.1.200`
 
-- Node.js (v12 or higher)
-- npm (Node Package Manager)
+### System Requirements (Mock)
+The system check will pass with these mock values:
+- CPU: 4.0GHz
+- Memory: 256GB
+- Storage: 2TB SSD
+- Docker: Installed
+- Docker Compose: Installed
 
-## Installation
+## Testing Flow
+1. Press Enter at welcome screen
+2. Enter test IP: `192.168.1.100`
+3. System check will run automatically
+4. Choose download method (1 or 2)
+5. Enter MKDM address: `192.168.1.200`
+6. Enter license key: `kadmapDEV`
+7. Select application suite (1, 2, or 3)
 
-1. Clone the repository:   ```bash
-   git clone <repository-url>   ```
+## Common Commands for Testing
+- `help` - Display help menu
+- `back` - Test navigation
+- `restart` - Test restart functionality
+- `exit` - Test exit functionality
 
-2. Navigate to the project directory:   ```bash
-   cd <project-directory>   ```
-
-3. Install dependencies:   ```bash
-   npm install   ```
-
-4. Run the application:   ```bash
-   npm start   ```
-
+## Expected Checkpoints
+The installation tracks these steps:
+1. connection
+2. requirements
+3. environment
+4. download
+5. mkdm
+6. license
+7. applications
+8. services
