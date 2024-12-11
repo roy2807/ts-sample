@@ -42,7 +42,7 @@ const loadingFrames = [".", "..", "...", "....", "....."];
 
 function createLoadingAnimation(
   message: string,
-  duration: number,
+  duration: number
 ): Promise<void> {
   return new Promise((resolve) => {
     let i = 0;
@@ -75,16 +75,18 @@ function displayHelpMenu(): void {
 async function handleCommonCommands(
   input: string,
   currentStep: () => Promise<void>,
-  previousStep?: () => Promise<void>,
+  previousStep?: () => Promise<void>
 ): Promise<boolean> {
   const command = input.toLowerCase();
   if (command === "help") {
     displayHelpMenu();
-    const { continueSetup } = await inquirer.prompt([{
-      name: "continueSetup",
-      type: "input",
-      message: "Press Enter to continue setup",
-    }]);
+    const { continueSetup } = await inquirer.prompt([
+      {
+        name: "continueSetup",
+        type: "input",
+        message: "Press Enter to continue setup",
+      },
+    ]);
     if (continueSetup === "") {
       await currentStep();
     }
@@ -110,7 +112,9 @@ ${colors.yellow("────")}
 This tool will guide you through installing KadMap on a bare-metal machine remotely from this controller device.
 
 Requirements:
-    ${colors.red("1.")} The target machine is connected to this device via Ethernet.
+    ${colors.red(
+      "1."
+    )} The target machine is connected to this device via Ethernet.
     ${colors.red("2.")} You have SSH credentials for the target machine.
     ${colors.red("3.")} You have an admin access token to authorise setup.
 
@@ -119,11 +123,13 @@ Press ${colors.green("Enter")} to start the installation
 ${colors.yellow("────")}
 `);
 
-  const { answer } = await inquirer.prompt([{
-    name: "answer",
-    type: "input",
-    message: "",
-  }]);
+  const { answer } = await inquirer.prompt([
+    {
+      name: "answer",
+      type: "input",
+      message: "",
+    },
+  ]);
 
   if (await handleCommonCommands(answer, welcomeScreen)) {
     return;
@@ -137,60 +143,61 @@ ${colors.yellow("────")}
     process.exit(0);
   } else {
     console.log(
-      `${
-        colors.yellow(
-          "Press Enter to start or type 'help' for more information.",
-        )
-      }`,
+      `${colors.yellow(
+        "Press Enter to start or type 'help' for more information."
+      )}`
     );
     return welcomeScreen();
   }
 }
 
+// Add validation helper
+function validateIPAddress(ip: string): boolean {
+  const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+  if (!ipPattern.test(ip)) return false;
+  return ip.split('.').every(num => parseInt(num) >= 0 && parseInt(num) <= 255);
+}
+
 // Installation Steps (continued)
 async function establishConnection(state: InstallationState): Promise<void> {
-  const { answer } = await inquirer.prompt([{
-    name: "answer",
-    type: "input",
-    message: "Enter the IP address or hostname of the target machine:",
-  }]);
+  let isValid = false;
+  while (!isValid) {
+    const { answer } = await inquirer.prompt([
+      {
+        name: "answer",
+        type: "input",
+        message: "Enter the IP address or hostname of the target machine:",
+      },
+    ]);
 
-  if (
-    await handleCommonCommands(
-      answer,
-      () => establishConnection(state),
-      welcomeScreen,
-    )
-  ) {
-    return;
-  }
+    if (await handleCommonCommands(answer, () => establishConnection(state), welcomeScreen)) {
+      return;
+    }
 
-  await createLoadingAnimation("Attempting to connect", 3000);
+    if (!validateIPAddress(answer)) {
+      console.log(`⚠️  ${colors.red.italic("Invalid IP address format. Please enter a valid IP address.")}`);
+      continue;
+    }
 
-  if (answer === DEFAULT_KDM_IP) {
-    console.log(
-      `✅${colors.bold(" Successfully connected to ")}${
-        colors.bold.italic(answer)
-      }`,
-    );
-    state.checkpoints.push("connection");
-    await checkSystemRequirements(state);
-  } else {
-    console.log(
-      `⚠️  ${colors.red.italic("Could not connect to [")} ${
-        colors.red.bold.italic(answer)
-      } ${colors.red.italic("].")}`,
-    );
-    await establishConnection(state);
+    await createLoadingAnimation("Attempting to connect", 3000);
+
+    if (answer === DEFAULT_KDM_IP) {
+      isValid = true;
+      console.log(`✅${colors.bold(" Successfully connected to ")}${colors.bold.italic(answer)}`);
+      state.checkpoints.push("connection");
+      await checkSystemRequirements(state);
+    } else {
+      console.log(`⚠️  ${colors.red.italic("Could not connect to [")} ${colors.red.bold.italic(answer)} ${colors.red.italic("].")}`);
+    }
   }
 }
 
 async function checkSystemRequirements(
-  state: InstallationState,
+  state: InstallationState
 ): Promise<void> {
   await createLoadingAnimation(
     "Checking system requirements (CPU, memory, storage)",
-    4000,
+    4000
   );
 
   // In production, implement actual checks
@@ -207,11 +214,9 @@ async function checkSystemRequirements(
 
   if (missingRequirements.length === 0) {
     console.log(
-      `✅${
-        colors.bold(
-          " System requirements check complete. The machine is ready for KadMap.",
-        )
-      }`,
+      `✅${colors.bold(
+        " System requirements check complete. The machine is ready for KadMap."
+      )}`
     );
     state.checkpoints.push("requirements");
     await prepareEnvironment(state);
@@ -225,7 +230,7 @@ async function checkSystemRequirements(
 async function prepareEnvironment(state: InstallationState): Promise<void> {
   await createLoadingAnimation(
     "Preparing environment: installing dependencies",
-    5000,
+    5000
   );
   console.log(`✅${colors.bold(" Environment setup complete.")}`);
   state.checkpoints.push("environment");
@@ -233,46 +238,63 @@ async function prepareEnvironment(state: InstallationState): Promise<void> {
 }
 
 async function downloadKadMap(state: InstallationState): Promise<void> {
-  console.log(`\nHow would you like to download KadMap components?
+  let isValid = false;
+  while (!isValid) {
+    console.log(`\nHow would you like to download KadMap components?
 ${colors.red("1.")} Download from the internet
 ${colors.red("2.")} Transfer from this controller device`);
 
-  const { choice } = await inquirer.prompt([{
-    name: "choice",
-    type: "input",
-    message: "Enter your choice (1 or 2):",
-  }]);
+    const { choice } = await inquirer.prompt([
+      {
+        name: "choice",
+        type: "input",
+        message: "Enter your choice (1 or 2):",
+      },
+    ]);
 
-  if (
-    await handleCommonCommands(
-      choice,
-      () => downloadKadMap(state),
-      () => configureMKDM(state),
-    )
-  ) {
-    return;
+    if (await handleCommonCommands(choice, () => downloadKadMap(state), () => configureMKDM(state))) {
+      return;
+    }
+
+    if (choice !== "1" && choice !== "2") {
+      console.log(`⚠️  ${colors.red.italic("Please enter either 1 or 2.")}`);
+      continue;
+    }
+
+    isValid = true;
+    
+    // New spinner-style loading animation
+    let i = 0;
+    const spinnerFrames = ["\\", "-", "/"];
+    const interval = setInterval(() => {
+      const frame = spinnerFrames[i++ % spinnerFrames.length];
+      logUpdate(` Downloading KadMap components${frame}`);
+    }, 150);
+
+    await new Promise(resolve => setTimeout(resolve, 7000));
+    clearInterval(interval);
+    logUpdate.clear();
+    
+    console.log(`✅${colors.bold(" KadMap components downloaded and verified.")}`);
+    state.checkpoints.push("download");
+    await configureMKDM(state);
   }
-
-  await createLoadingAnimation("Downloading KadMap components", 7000);
-  console.log(
-    `✅${colors.bold(" KadMap components downloaded and verified.")}`,
-  );
-  state.checkpoints.push("download");
-  await configureMKDM(state);
 }
 
 async function configureMKDM(state: InstallationState): Promise<void> {
-  const { mkdmAddress } = await inquirer.prompt([{
-    name: "mkdmAddress",
-    type: "input",
-    message: "Enter the IP address of the Master KadMap Data Machine (MKDM):",
-  }]);
+  const { mkdmAddress } = await inquirer.prompt([
+    {
+      name: "mkdmAddress",
+      type: "input",
+      message: "Enter the IP address of the Master KadMap Data Machine (MKDM):",
+    },
+  ]);
 
   if (
     await handleCommonCommands(
       mkdmAddress,
       () => configureMKDM(state),
-      () => downloadKadMap(state),
+      () => downloadKadMap(state)
     )
   ) {
     return;
@@ -284,24 +306,26 @@ async function configureMKDM(state: InstallationState): Promise<void> {
     await activateLicense(state);
   } else {
     console.log(
-      `⚠️  ${colors.red.italic("Invalid MKDM address. Please try again.")}`,
+      `⚠️  ${colors.red.italic("Invalid MKDM address. Please try again.")}`
     );
     await configureMKDM(state);
   }
 }
 
 async function activateLicense(state: InstallationState): Promise<void> {
-  const { license } = await inquirer.prompt([{
-    name: "license",
-    type: "input",
-    message: "Enter your KadMap license key:",
-  }]);
+  const { license } = await inquirer.prompt([
+    {
+      name: "license",
+      type: "input",
+      message: "Enter your KadMap license key:",
+    },
+  ]);
 
   if (
     await handleCommonCommands(
       license,
       () => activateLicense(state),
-      () => configureMKDM(state),
+      () => configureMKDM(state)
     )
   ) {
     return;
@@ -314,47 +338,49 @@ async function activateLicense(state: InstallationState): Promise<void> {
     await deployApplications(state);
   } else {
     console.log(
-      `⚠️  ${colors.red.italic("Invalid license key. Please try again.")}`,
+      `⚠️  ${colors.red.italic("Invalid license key. Please try again.")}`
     );
     await activateLicense(state);
   }
 }
 
 async function deployApplications(state: InstallationState): Promise<void> {
-  console.log(`\nSelect the applications to install:
+  let isValid = false;
+  while (!isValid) {
+    console.log(`\nSelect the applications to install:
 ${colors.red("1.")} Core Applications (${APPLICATIONS.CORE.join(", ")})
 ${colors.red("2.")} Advanced Applications (${APPLICATIONS.ADVANCED.join(", ")})
 ${colors.red("3.")} Full Suite (${APPLICATIONS.FULL})`);
 
-  const { choice } = await inquirer.prompt([{
-    name: "choice",
-    type: "input",
-    message: "Enter your choice:",
-  }]);
+    const { choice } = await inquirer.prompt([
+      {
+        name: "choice",
+        type: "input",
+        message: "Enter your choice:",
+      },
+    ]);
 
-  if (
-    await handleCommonCommands(
-      choice,
-      () => deployApplications(state),
-      () => activateLicense(state),
-    )
-  ) {
-    return;
+    if (await handleCommonCommands(choice, () => deployApplications(state), () => activateLicense(state))) {
+      return;
+    }
+
+    if (!["1", "2", "3"].includes(choice)) {
+      console.log(`⚠️  ${colors.red.italic("Please enter 1, 2, or 3.")}`);
+      continue;
+    }
+
+    isValid = true;
+    await createLoadingAnimation("Setting up selected applications and creating workspaces", 8000);
+    console.log(`✅${colors.bold(" Applications and workspaces are ready.")}`);
+    state.checkpoints.push("applications");
+    await enableServices(state);
   }
-
-  await createLoadingAnimation(
-    "Setting up selected applications and creating workspaces",
-    8000,
-  );
-  console.log(`✅${colors.bold(" Applications and workspaces are ready.")}`);
-  state.checkpoints.push("applications");
-  await enableServices(state);
 }
 
 async function enableServices(state: InstallationState): Promise<void> {
   await createLoadingAnimation("Enabling system services", 5000);
   console.log(
-    `✅${colors.bold(" Services enabled and configured to start on boot.")}`,
+    `✅${colors.bold(" Services enabled and configured to start on boot.")}`
   );
   state.checkpoints.push("services");
   await finalizeInstallation(state);
@@ -363,7 +389,7 @@ async function enableServices(state: InstallationState): Promise<void> {
 async function finalizeInstallation(state: InstallationState): Promise<void> {
   await createLoadingAnimation(
     "Running final system checks and testing synchronization with MKDM",
-    4000,
+    4000
   );
 
   if (state.checkpoints.length === 8) {
@@ -373,23 +399,19 @@ ${colors.yellow("────")}
 KadMap is now installed on the target machine.
 You can disconnect the Ethernet cable from this controller device.
 
-${
-      colors.blue(
-        "Running final system checks and testing synchronization with MKDM...",
-      )
-    }
+${colors.blue(
+  "Running final system checks and testing synchronization with MKDM..."
+)}
 `);
     await createLoadingAnimation("Finalizing installation", 3000);
     console.log(
-      `✅${colors.bold(" All checks passed! KadMap is ready for use.")}`,
+      `✅${colors.bold(" All checks passed! KadMap is ready for use.")}`
     );
   } else {
     console.log(
-      `⚠️  ${
-        colors.red.italic(
-          "Final checks encountered issues. Please review the log and resolve any errors.",
-        )
-      }`,
+      `⚠️  ${colors.red.italic(
+        "Final checks encountered issues. Please review the log and resolve any errors."
+      )}`
     );
   }
 }
@@ -407,13 +429,11 @@ async function startInstallation(): Promise<void> {
     await establishConnection(state);
   } catch (error) {
     console.error(
-      `${colors.red("Installation Error:")} ${(error as Error).message}`,
+      `${colors.red("Installation Error:")} ${(error as Error).message}`
     );
     process.exit(1);
   }
 }
-
-
 
 // Utility function to check system requirements
 function meetsRequirement(requirement: keyof SystemRequirements): boolean {
@@ -456,7 +476,6 @@ function meetsRequirement(requirement: keyof SystemRequirements): boolean {
       return false;
   }
 }
-
 
 // Start Installation
 startInstallation();
